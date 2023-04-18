@@ -10,10 +10,15 @@ screen.addshape(image)
 
 turtle.shape(image)
 
+answer_text = screen.textinput(title="Guess the State", prompt="What's another state's name? ")
+states = pandas.read_csv("50_states.csv")
 
-def get_mouse_coor(x, y):
-    print(x, y)
+if states["state"]  == answer_text:
+    print(states.state)
 
 
-screen.onclick(get_mouse_coor)
+
+
+
+
 turtle.mainloop()
