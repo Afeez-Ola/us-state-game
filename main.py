@@ -1,9 +1,9 @@
 import turtle
 import pandas
-from scoring import Scoreboard
+from scoring import Score
 
-scoreboard = Scoreboard()
-score = scoreboard.update_score()
+scoreboard = Score()
+score = scoreboard.score_board()
 
 image = "blank_states_img.gif"
 
@@ -19,28 +19,31 @@ text_turtle.hideturtle()
 text_turtle.penup()
 game_on = True
 attempts = 50
+correct_guess = []
+
+states_dict = pandas.read_csv("50_states.csv").to_dict()
+
+states = states_dict["state"]
+x_coor = states_dict["x"]
+y_coor = states_dict["y"]
+state_list = list(states.values())
+state_list = [state.lower() for state in state_list]
+
+x_list = list(x_coor.values())
+y_list = list(y_coor.values())
+
 while game_on:
+    answer_text = screen.textinput(title=score, prompt="What's another state's name? ")
+    answer_text = answer_text.lower()
 
-    answer_text = screen.textinput(title=score, prompt="What's another state's name? ").lower()
-    states_dict = pandas.read_csv("50_states.csv").to_dict()
+    if answer_text in state_list:
+        index = state_list.index(answer_text)
+        text_turtle.goto(x_list[index], y_list[index])
+        text_turtle.write(answer_text)
+        correct_guess.append(answer_text)
+        score = scoreboard.update_score()
+    else:
+        print("nope" + answer_text)
 
-    states = states_dict["state"]
-    x_coor = states_dict["x"]
-    y_coor = states_dict["y"]
-    found_state_index = 0
-    for state in states:
-        if (states[state]).lower() == answer_text:
-            found_state_index = state
-            attempts -= 1
-        else:
-            answer_text = screen.textinput(title=score, prompt="What's another state's name? ").lower()
-
-    if attempts == 0:
-        game_on = False
-
-
-    text_turtle.setposition(x_coor[found_state_index], y_coor[found_state_index])
-    text_turtle.write(answer_text)
-    print(f"{x_coor[found_state_index]} , {y_coor[found_state_index]}")
-
+    print(correct_guess)
 turtle.mainloop()
