@@ -13,5 +13,5 @@ class Score(Turtle):
         return self.result
 
     def score_board(self):
-        self.result = f"{self.score}/ 50"
+        self.result = f"{self.score}/ 50 states correct"
         return self.result
