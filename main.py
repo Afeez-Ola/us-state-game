@@ -31,7 +31,7 @@ while len(guessed_state) < attempts:
     answer_text = (screen.textinput(title=score, prompt="What's another state's name? ")).title()
 
     if answer_text == "Exit":
-        missing_states = [item for item in state_list if item not in guessed_state]
+        missing_states = [state for state in state_list if state not in guessed_state]
         remaining_states = pandas.DataFrame({"state": missing_states})
         remaining_states.to_csv("remaining_states.csv")
 
